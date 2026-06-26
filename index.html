@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>昝颜 · 阿联酋房产与实用工具</title>
+  <meta name="description" content="昝颜团队 · 迪拜/阿布扎比房产顾问。数据报告、买房成本计算器、迪拜选校、护照校验等免费工具导航。" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100' rx='16'/><text y='68' x='50' text-anchor='middle' font-size='48' fill='%23e8d5a3'>昝</text></svg>" />
+  <style>
+    :root {
+      --primary: #0d4f3c;
+      --primary-light: #1a6b52;
+      --accent: #c9a227;
+      --accent-soft: #f5efd8;
+      --bg: #f4f6f3;
+      --surface: #fff;
+      --text: #1a1f1c;
+      --muted: #64748b;
+      --border: #e2e8e4;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .site-brand-bar {
+      background: #0a0a0a;
+      color: #e8d5a3;
+      padding: .55rem 1.25rem;
+      border-bottom: 1px solid rgba(232, 213, 163, .12);
+    }
+    .site-brand-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+    }
+    .site-logo { height: 34px; width: auto; }
+    .site-brand-meta {
+      display: flex; align-items: center; gap: .65rem;
+      margin-left: auto; font-size: .84rem;
+    }
+    .site-team { font-weight: 600; letter-spacing: .02em; }
+    .site-phone { color: #e8d5a3; text-decoration: none; font-variant-numeric: tabular-nums; }
+    .site-phone:hover { color: #fff; text-decoration: underline; }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.5rem;
+      align-items: start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 12px rgba(13, 79, 60, .06);
+    }
+    @media (max-width: 600px) {
+      .hero { grid-template-columns: 1fr; text-align: center; }
+      .hero-photo { margin: 0 auto; }
+    }
+    .hero-photo {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent-soft);
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+    .hero h1 {
+      font-size: 1.65rem;
+      color: var(--primary);
+      margin-bottom: .25rem;
+    }
+    .hero-sub {
+      font-size: .92rem;
+      color: var(--muted);
+      margin-bottom: .75rem;
+    }
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 600px) { .hero-tags { justify-content: center; } }
+    .tag {
+      font-size: .72rem; font-weight: 600;
+      padding: 4px 10px; border-radius: 999px;
+      background: rgba(13,79,60,.08);
+      color: var(--primary);
+    }
+    .tag.gold { background: var(--accent-soft); color: #7a5c00; }
+    .hero-bio {
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .hero-bio strong { color: var(--text); }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 10px;
+    }
+    @media (max-width: 600px) { .hero-actions { justify-content: center; } }
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 8px;
+      font-size: .82rem; font-weight: 600;
+      text-decoration: none;
+      transition: transform .12s, box-shadow .12s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-outline {
+      background: var(--surface);
+      color: var(--primary);
+      border: 1px solid var(--border);
+    }
+
+    .section-head {
+      margin-bottom: 1rem;
+    }
+    .section-head h2 {
+      font-size: 1.1rem;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .section-head p { font-size: .82rem; color: var(--muted); }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 2rem;
+    }
+    @media (max-width: 640px) { .tool-grid { grid-template-columns: 1fr; } }
+
+    .tool-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex; flex-direction: column; gap: 8px;
+      transition: border-color .15s, box-shadow .15s, transform .12s;
+    }
+    .tool-card:hover {
+      border-color: var(--primary-light);
+      box-shadow: 0 6px 20px rgba(13, 79, 60, .1);
+      transform: translateY(-2px);
+    }
+    .tool-icon { font-size: 1.5rem; line-height: 1; }
+    .tool-card h3 {
+      font-size: .95rem;
+      color: var(--primary);
+    }
+    .tool-card p {
+      font-size: .78rem;
+      color: var(--muted);
+      flex: 1;
+    }
+    .tool-go {
+      font-size: .75rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .tool-card.featured {
+      border-color: rgba(201, 162, 39, .35);
+      background: linear-gradient(135deg, #fff 0%, #faf8f2 100%);
+    }
+
+    .cv-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .cv-block h2 {
+      font-size: .95rem;
+      color: var(--primary);
+      margin-bottom: .75rem;
+    }
+    .cv-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px 1.5rem;
+      font-size: .82rem;
+      color: var(--muted);
+      list-style: none;
+    }
+    @media (max-width: 560px) { .cv-list { grid-template-columns: 1fr; } }
+    .cv-list li::before { content: "· "; color: var(--accent); font-weight: 700; }
+
+    .footer {
+      font-size: .72rem;
+      color: var(--muted);
+      line-height: 1.8;
+      border-top: 1px solid var(--border);
+      padding-top: 1.25rem;
+    }
+    .footer a { color: var(--primary); }
+  </style>
+</head>
+<body>
+
+<div class="site-brand-bar">
+  <div class="site-brand-inner">
+    <img src="Logo.png" alt="Logo" class="site-logo" />
+    <div class="site-brand-meta">
+      <span class="site-team">昝颜团队</span>
+      <a href="tel:+971565473192" class="site-phone">0565473192</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <img src="Picture.jpg" alt="昝颜 Yan Zan" class="hero-photo" width="140" height="140" />
+    <div>
+      <h1>昝颜 · Yan Zan</h1>
+      <p class="hero-sub">华人房产顾问 · 迪拜实操 · 阿布扎比数据派</p>
+      <div class="hero-tags">
+        <span class="tag gold">迪拜 / 阿布扎比</span>
+        <span class="tag">投资 · 居留 · 自住</span>
+        <span class="tag">中英文</span>
+        <span class="tag">数据驱动决策</span>
+      </div>
+      <p class="hero-bio">
+        数年阿联酋房产市场经验；此前从事<strong>科技与财富管理</strong>，以数据分析与资产配置视角辅助购房决策。
+        服务本地及国际客户买卖租赁，亦对接 distressed / off-market 机会。
+        小红书「<strong>30天看懂阿布房产</strong>」系列作者——本页工具均为系列配套免费资源。
+      </p>
+      <div class="hero-actions">
+        <a href="tel:+971565473192" class="btn btn-primary">📞 0565473192</a>
+        <a href="CV-YanZan.pdf" class="btn btn-outline" target="_blank" rel="noopener">📄 下载 CV</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-head">
+    <h2>实用工具导航</h2>
+    <p>以下工具均为静态页，可收藏、可转发；数据仅供参考，不构成投资建议。</p>
+  </div>
+
+  <div class="tool-grid">
+    <a class="tool-card featured" href="https://sobhazanyan.github.io/abu-market-report/" target="_blank" rel="noopener">
+      <span class="tool-icon">📊</span>
+      <h3>阿布扎比数据报告</h3>
+      <p>ADREC 2025 年报宏观 KPI + 近半年成交数据；期房结构、投资区筛选、均价走势与区域分布。</p>
+      <span class="tool-go">打开报告 →</span>
+    </a>
+    <a class="tool-card" href="https://sobhazanyan.github.io/uae-buy-cost-calculator/" target="_blank" rel="noopener">
+      <span class="tool-icon">🧮</span>
+      <h3>买房成本计算器</h3>
+      <p>迪拜 / 阿布扎比 · 期房与二手现房一次性费用估算；期房支持付款计划与 Excel 导出。</p>
+      <span class="tool-go">打开计算器 →</span>
+    </a>
+    <a class="tool-card" href="https://sobhazanyan.github.io/dubai-school-picker/" target="_blank" rel="noopener">
+      <span class="tool-icon">🏫</span>
+      <h3>迪拜选校助手</h3>
+      <p>基于 KHDA 官方数据的私立学校筛选；按区域、学费、评级对比，适合带娃家庭。</p>
+      <span class="tool-go">打开选校 →</span>
+    </a>
+    <a class="tool-card" href="https://sobhazanyan.github.io/passport-mrz-check/" target="_blank" rel="noopener">
+      <span class="tool-icon">🛂</span>
+      <h3>护照 MRZ 校验</h3>
+      <p>护照机读区校验码验证，快速核对证件信息是否录入正确。</p>
+      <span class="tool-go">打开校验 →</span>
+    </a>
+  </div>
+
+  <section class="cv-block">
+    <h2>专业背景摘要</h2>
+    <ul class="cv-list">
+      <li>华人房产顾问，深耕迪拜市场数年</li>
+      <li>科技 & 财富管理背景，强调数据与资产配置</li>
+      <li>投资、黄金签证、自住全场景买卖租赁</li>
+      <li>中英文服务，流程透明、以客户需求为中心</li>
+      <li>Distressed / off-market 机会对接</li>
+      <li>阿布扎比 ADREC 数据解读与区域研究</li>
+    </ul>
+  </section>
+
+  <footer class="footer">
+    <p>
+      咨询联系：昝颜团队 · <a href="tel:+971565473192">0565473192</a><br>
+      小红书请备注：预算 + 目的 + 时间线 · 工具页数据仅供参考，不构成投资建议。<br>
+      © 昝颜团队 · 阿联酋
+    </p>
+  </footer>
+
+</div>
+
+</body>
+</html>
