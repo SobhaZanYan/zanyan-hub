@@ -91,6 +91,30 @@
     }
     .site-phone:hover { color: #fff; text-shadow: 0 0 14px var(--gold-glow); }
 
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-left: 0.5rem;
+    }
+    .lang-btn {
+      padding: 3px 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: "SF Mono", "Consolas", monospace;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .lang-btn:hover { color: var(--gold-light); }
+    .lang-btn.active {
+      background: var(--gold-dim);
+      color: var(--gold-bright);
+    }
+
     .wrap {
       position: relative;
       z-index: 1;
@@ -330,7 +354,7 @@
     .footer a:hover { text-shadow: 0 0 10px var(--gold-glow); }
   </style>
 </head>
-<body>
+<body data-i18n-title="meta.title">
 
 <canvas id="particles-canvas" aria-hidden="true"></canvas>
 
@@ -338,7 +362,11 @@
   <div class="site-brand-inner">
     <img src="Logo.png" alt="Logo" class="site-logo" />
     <div class="site-brand-meta">
-      <span class="site-team">昝颜团队</span>
+      <span class="site-team" data-i18n="team">昝颜团队</span>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn active" data-lang="zh">中</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
       <a href="tel:+971565473192" class="site-phone">0565473192</a>
     </div>
   </div>
@@ -353,14 +381,14 @@
     <div>
       <span class="hero-label">// Profile · UAE Real Estate</span>
       <h1>昝颜 · Yan Zan</h1>
-      <p class="hero-sub">Sobha Realty 销售副总裁</p>
+      <p class="hero-sub" data-i18n="hero.sub">Sobha Realty 销售副总裁</p>
       <div class="hero-tags">
         <span class="tag accent">DXB / AUH</span>
-        <span class="tag">投资 · 居留 · 自住</span>
+        <span class="tag" data-i18n="tag.invest">投资 · 居留 · 自住</span>
         <span class="tag">CN · EN</span>
         <span class="tag">DATA-DRIVEN</span>
       </div>
-      <p class="hero-bio">
+      <p class="hero-bio" data-i18n-html="hero.bio">
         迪拜英国<strong>双硕士</strong>，深耕阿联酋房地产市场 <strong>11 年</strong>。
         曾任 <strong>Binghatti Group</strong> 开发商顶尖销售，具备开发商端与资本端双重实战经验，逻辑清晰、决策果断。
         现任 <strong>Sobha Realty</strong> 销售副总裁，领导国际化专业团队，专注高端资产配置与渠道整合。
@@ -372,39 +400,39 @@
   </section>
 
   <div class="section-head">
-    <h2>Tools · 实用工具</h2>
-    <p>静态数据工具矩阵 · 可收藏 · 可转发</p>
+    <h2 data-i18n="tools.title">Tools · 实用工具</h2>
+    <p data-i18n="tools.sub">静态数据工具矩阵 · 可收藏 · 可转发</p>
   </div>
 
   <div class="tool-grid">
     <a class="tool-card glass-panel featured" href="https://sobhazanyan.github.io/abu-market-report/" target="_blank" rel="noopener">
       <span class="tool-icon">DATA</span>
-      <h3>阿布扎比数据报告</h3>
-      <p>ADREC 2025 年报宏观 KPI + 近半年成交数据；期房结构、投资区筛选、均价走势与区域分布。</p>
+      <h3 data-i18n="tool.report.title">阿布扎比数据报告</h3>
+      <p data-i18n="tool.report.desc">ADREC 2025 年报宏观 KPI + 近半年成交数据；期房结构、投资区筛选、均价走势与区域分布。</p>
       <span class="tool-go">OPEN →</span>
     </a>
     <a class="tool-card glass-panel" href="https://sobhazanyan.github.io/uae-buy-cost-calculator/" target="_blank" rel="noopener">
       <span class="tool-icon">CALC</span>
-      <h3>买房成本计算器</h3>
-      <p>迪拜 / 阿布扎比 · 期房与二手现房一次性费用估算；期房支持付款计划与 Excel 导出。</p>
+      <h3 data-i18n="tool.calc.title">买房成本计算器</h3>
+      <p data-i18n="tool.calc.desc">迪拜 / 阿布扎比 · 期房与二手现房一次性费用估算；期房支持付款计划与 Excel 导出。</p>
       <span class="tool-go">OPEN →</span>
     </a>
     <a class="tool-card glass-panel" href="https://sobhazanyan.github.io/dubai-school-picker/" target="_blank" rel="noopener">
       <span class="tool-icon">EDU</span>
-      <h3>迪拜选校助手</h3>
-      <p>基于 KHDA 官方数据的私立学校筛选；按区域、学费、评级对比，适合带娃家庭。</p>
+      <h3 data-i18n="tool.school.title">迪拜选校助手</h3>
+      <p data-i18n="tool.school.desc">基于 KHDA 官方数据的私立学校筛选；按区域、学费、评级对比，适合带娃家庭。</p>
       <span class="tool-go">OPEN →</span>
     </a>
     <a class="tool-card glass-panel" href="https://sobhazanyan.github.io/passport-mrz-check/" target="_blank" rel="noopener">
       <span class="tool-icon">MRZ</span>
-      <h3>护照 MRZ 校验</h3>
-      <p>护照机读区校验码验证，快速核对证件信息是否录入正确。</p>
+      <h3 data-i18n="tool.mrz.title">护照 MRZ 校验</h3>
+      <p data-i18n="tool.mrz.desc">护照机读区校验码验证，快速核对证件信息是否录入正确。</p>
       <span class="tool-go">OPEN →</span>
     </a>
   </div>
 
   <footer class="footer">
-    <p>
+    <p data-i18n-html="footer">
       咨询联系：昝颜团队 · <a href="tel:+971565473192">0565473192</a><br>
       © 昝颜团队 · 阿联酋
     </p>
@@ -412,6 +440,8 @@
 
 </div>
 
+<script src="scripts/site-i18n-core.js"></script>
+<script src="scripts/i18n.js"></script>
 <script>
 (function () {
   const canvas = document.getElementById('particles-canvas');
