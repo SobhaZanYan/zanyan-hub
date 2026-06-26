@@ -24,9 +24,21 @@
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .55;
     }
 
     .site-brand-bar {
+      position: relative;
+      z-index: 10;
       background: #0a0a0a;
       color: #e8d5a3;
       padding: .55rem 1.25rem;
@@ -45,14 +57,19 @@
     .site-phone { color: #e8d5a3; text-decoration: none; font-variant-numeric: tabular-nums; }
     .site-phone:hover { color: #fff; text-decoration: underline; }
 
-    .wrap { max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 960px; margin: 0 auto; padding: 2rem 1.25rem 3rem;
+    }
 
     .hero {
       display: grid;
       grid-template-columns: 140px 1fr;
       gap: 1.5rem;
       align-items: start;
-      background: var(--surface);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 1.75rem;
@@ -112,7 +129,8 @@
     .btn:hover { transform: translateY(-1px); }
     .btn-primary { background: var(--primary); color: #fff; }
     .btn-outline {
-      background: var(--surface);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(8px);
       color: var(--primary);
       border: 1px solid var(--border);
     }
@@ -136,7 +154,8 @@
     @media (max-width: 640px) { .tool-grid { grid-template-columns: 1fr; } }
 
     .tool-card {
-      background: var(--surface);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.25rem;
@@ -171,7 +190,8 @@
     }
 
     .cv-block {
-      background: var(--surface);
+      background: rgba(255, 255, 255, .88);
+      backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.25rem 1.5rem;
@@ -205,6 +225,8 @@
 </head>
 <body>
 
+<canvas id="particles-canvas" aria-hidden="true"></canvas>
+
 <div class="site-brand-bar">
   <div class="site-brand-inner">
     <img src="Logo.png" alt="Logo" class="site-logo" />
@@ -235,7 +257,6 @@
       </p>
       <div class="hero-actions">
         <a href="tel:+971565473192" class="btn btn-primary">📞 0565473192</a>
-        <a href="CV-YanZan.pdf" class="btn btn-outline" target="_blank" rel="noopener">📄 下载 CV</a>
       </div>
     </div>
   </section>
@@ -294,5 +315,94 @@
 
 </div>
 
+<script>
+(function () {
+  const canvas = document.getElementById('particles-canvas');
+  if (!canvas) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const ctx = canvas.getContext('2d');
+  const colors = ['rgba(13, 79, 60, ', 'rgba(201, 162, 39, '];
+  let w = 0;
+  let h = 0;
+  let particles = [];
+  let mouse = { x: -9999, y: -9999 };
+  let raf = 0;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    const count = Math.min(72, Math.floor((w * h) / 14000));
+    particles = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.8 + 0.8,
+      c: colors[Math.random() > 0.75 ? 1 : 0],
+      a: Math.random() * 0.35 + 0.15,
+    }));
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 120 && dist > 0) {
+        p.x -= (dx / dist) * 0.6;
+        p.y -= (dy / dist) * 0.6;
+      }
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.c + p.a + ')';
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const q = particles[j];
+        const d = Math.hypot(p.x - q.x, p.y - q.y);
+        if (d < 110) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = p.c + (0.12 * (1 - d / 110)) + ')';
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+    raf = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  }, { passive: true });
+  window.addEventListener('mouseleave', () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  resize();
+  draw();
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      cancelAnimationFrame(raf);
+    } else {
+      draw();
+    }
+  });
+})();
+</script>
 </body>
 </html>
